@@ -1,5 +1,5 @@
 <template>
-    <Slideover storeKey="information" title="Information" subtitle="About this extension" :visible="visible">
+    <Slideover storeKey="settings" title="Settings" :visible="visible" position="right">
         <h1>Hello World</h1>
     </Slideover>
 </template>
@@ -8,17 +8,18 @@
 import Slideover from './utilities/Slideover.vue'
 
 export default {
-    name: 'Information',
+    name: 'Settings',
     components: {
         Slideover
     },
     computed: {
         visible () {
-            return this.$store.state.slideouts.information
+            return this.$store.state.slideouts.settings
         }
     }
 }
 </script>
+
 <style lang="">
     
 </style>

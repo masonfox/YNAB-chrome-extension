@@ -13,7 +13,11 @@ export default new Vuex.Store({
     budgets: [],
     accounts: [],
     payees: [],
-    categories: []
+    categories: [],
+    slideouts: {
+      information: false,
+      settings: false
+    }
   },
   getters: {
 
@@ -31,6 +35,9 @@ export default new Vuex.Store({
     },
     setPayees (state, payload) {
       state.payees = payload;
+    },
+    toggleSlideout(state, key) {
+      state.slideouts[key] = !state.slideouts[key]
     }
   },
   actions: {
