@@ -2,7 +2,6 @@
     <div id="app">
         <Navbar />
         <router-view class="mt-10" />
-        <!-- <button @click="clearStorage()">Clear Storage</button> -->
     </div>
 </template>
 
@@ -13,11 +12,6 @@ export default {
     name: 'App',
     components: {
         Navbar
-    },
-    methods: {
-        clearStorage () {
-            this.$storage.clear()
-        }
     }
 }
 </script>
