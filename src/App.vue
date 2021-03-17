@@ -10,4 +10,8 @@
     height: 500px;
     padding: 1rem;
 }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 </style>
