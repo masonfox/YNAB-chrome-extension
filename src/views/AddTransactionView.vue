@@ -1,54 +1,180 @@
 <template>
     <div>
-        <h1>hello world</h1>
+        <!-- Debit/credit toggle and amount -->
+        <div class="form-line">
+            <div class="flex justify-between items-center">
+                <!-- Enabled: "bg-indigo-600", Not Enabled: "bg-gray-200" -->
+                <button type="button" @click="toggleTransactionType()" class="relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-md cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none" :class="[ isDebit ? 'bg-red-500' : 'bg-green-500' ]" aria-pressed="false">
+                    <span class="sr-only">Use setting</span>
+                    <!-- Enabled: "translate-x-5", Not Enabled: "translate-x-0" -->
+                    <span class="translate-x-0 pointer-events-none relative inline-block h-5 w-5 rounded-md bg-white shadow transform ring-0 transition ease-in-out duration-200" :class="[ isDebit ? 'translate-x-0' : 'translate-x-5' ]">
+                        <!-- Enabled: "opacity-0 ease-out duration-100", Not Enabled: "opacity-100 ease-in duration-200" -->
+                        <span class="absolute inset-0 h-full w-full flex items-center justify-center transition-opacity" aria-hidden="true" :class="[ isDebit ? 'opacity-100 ease-in duration-200' : 'opacity-0 ease-out duration-100' ]">
+                            <svg class="bg-white h-4 w-4 text-gray-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+                            </svg>
+                        </span>
+                        <!-- Enabled: "opacity-100 ease-in duration-200", Not Enabled: "opacity-0 ease-out duration-100" -->
+                        <span class="absolute inset-0 h-full w-full flex items-center justify-center transition-opacity" aria-hidden="true" :class="[ isDebit ? 'opacity-0 ease-out duration-100' : 'opacity-100 ease-in duration-200' ]">
+                            <svg class="bg-white h-4 w-4 text-gray-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                            </svg>
+                        </span>
+                    </span>
+                </button>
+                <input type="text" v-model="form.amount" class="w-24 h-4 text-right text-lg font-semibold focus:ring-0 border-0" :class="[ isDebit ? 'text-red-500' : 'text-green-500' ]">
+            </div>
+        </div>
+        <!-- Payee -->
+        <!-- <FormLine :clickHandler="thing" label="Payee">
+            <select name="payee" class="bg-transparent border-0 focus:outline-none w-2/3">
+                <option v-for="budget in budgets" :key="budget.id">{{ budget.name }}</option>
+            </select>
+        </FormLine> -->
+        <button @click="thing" class="flex items-center justify-between border-b border-gray-200 px-4 py-2 w-full bg-gray-50 hover:bg-gray-100 focus:outline-none">
+            <span class="w-1/4 text-sm text-left font-medium text-gray-700">Payee</span>
+            <div class="flex items-center justify-end w-3/4">
+                <span class="text-base mr-1">Selected Payee</span>
+                <!-- chevron right -->
+                <svg class="relative h-4 w-4 ml-.05 text-gray-400" style="top: 1px" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </div>
+        </button>
+        <!-- Category -->
+        <button @click="thing" class="flex items-center justify-between border-b border-gray-200 px-4 py-2 w-full bg-gray-50 hover:bg-gray-100 focus:outline-none">
+            <span class="w-1/4 text-sm text-left font-medium text-gray-700">Category</span>
+            <div class="flex items-center justify-end w-3/4">
+                <span class="text-base mr-1">Selected Category</span>
+                <!-- chevron right -->
+                <svg class="relative h-4 w-4 ml-.05 text-gray-400" style="top: 1px" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </div>
+        </button>
+        <!-- Account -->
+        <button @click="thing" class="flex items-center justify-between border-b border-gray-200 px-4 py-2 w-full bg-gray-50 hover:bg-gray-100 focus:outline-none">
+            <span class="w-1/4 text-sm text-left font-medium text-gray-700">Account</span>
+            <div class="flex items-center justify-end w-3/4">
+                <span class="text-base mr-1">Selected Account</span>
+                <!-- chevron right -->
+                <svg class="relative h-4 w-4 ml-.05 text-gray-400" style="top: 1px" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </div>
+        </button>
+        <!-- Date -->
+        <button @click="thing" class="flex items-center justify-between border-b border-gray-200 px-4 py-2 w-full bg-gray-50 hover:bg-gray-100 focus:outline-none">
+            <span class="w-1/4 text-sm text-left font-medium text-gray-700">Date</span>
+            <div class="flex justify-end w-3/4">
+                <span class="text-base mr-1">March 17th, 2021</span>
+            </div>
+        </button>
+
+        <div class="block px-4 py-2 w-full mt-5">
+            <p class="text-gray-500 text-xs font-medium uppercase tracking-wide">Optional</p>
+        </div>
+        <!-- Memo -->
+        <div class="flex items-center justify-between border-b border-t border-gray-200 w-full">
+            <textarea rows="4" class="text-sm w-full border-0 bg-gray-50 focus:ring-0 px-4 py-2 resize-none" v-model="form.memo" placeholder="Write a memo..."></textarea>
+        </div>
+        <!-- Cleared -->
+        <button @click="toggleCleared()" class="flex items-center justify-between border-b border-gray-200 px-4 py-2 w-full bg-gray-50 hover:bg-gray-100 focus:outline-none">
+            <span class="w-1/4 text-sm text-left font-medium text-gray-700">Cleared</span>
+            <div class="flex justify-end w-3/4">
+                <button type="button" class="bg-gray-200 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none" aria-pressed="false" :class="[ isCleared ? 'bg-green-500' : 'bg-gray-400']">
+                    <span class="sr-only">Use setting</span>
+                    <span aria-hidden="true" class="translate-x-0 pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200" :class="[ isCleared ? 'translate-x-5' : 'translate-x-0']"></span>
+                </button>
+            </div>
+        </button>
+
+        <div class="flex items-center justify-center mt-4 px-4">
+            <button @click="submit()" class="w-full text-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-500 hover:bg-indigo-600 focus:outline-none focus:ring-0">Save Transaction</button>
+        </div>
+
+        <!-- <pre>
+            <code>{{ form }}</code>
+        </pre> -->
     </div>
 </template>
 
 <script>
+// import FormLine from '@/components/utilities/FormLine.vue'
+
 export default {
     name: 'AddTransactionView',
-    data () {
+    components: {
+        // FormLine
+    },
+    data() {
         return {
             form: {
                 type: 'debit', // or credit
-                amount: 0.00,
+                amount: 1000.00,
                 categories: [],
                 budgetId: null,
                 payeeId: null,
                 accountId: null,
-                cleared: false
+                cleared: false,
+                memo: '',
+                date: null
             },
         }
     },
     computed: {
-        getBudgetById () {
+        // getBudgetById() {
 
+        // },
+        budgets() {
+            return this.$store.state.budgets
         },
-        getBudgets () {
+        // getPayeeById() {
 
-        },
-        getPayeeById () {
-            
-        },
-        getPayees () {
+        // },
+        // payees() {
 
-        },
-        getAccountById () {
+        // },
+        // getAccountById() {
 
-        },
-        getAccounts () {
+        // },
+        // getAccounts() {
 
-        },
-        getCategories () {
+        // },
+        // getCategories() {
 
-        },
-        getCategoriesByIds () {
+        // },
+        // getCategoriesByIds() {
 
+        // }
+        isDebit() {
+            return this.form.type == 'debit'
+        },
+        isCleared () {
+            return this.form.cleared
+        }
+    },
+    methods: {
+        toggleTransactionType () {
+            this.form.type = (this.form.type == 'debit') ? 'credit' : 'debit'
+        },
+        toggleCleared () {
+            this.form.cleared = !this.form.cleared
+        },
+        thing() {
+            alert('woot')
+        },
+        submit() {
+            // validation
+
+            console.log(this.form)
         }
     }
 }
 </script>
 
 <style lang="scss">
-    
+.form-line {
+    @apply border-b border-gray-100 px-4 py-2 bg-white;
+}
 </style>
