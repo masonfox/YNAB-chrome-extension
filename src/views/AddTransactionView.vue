@@ -26,11 +26,6 @@
             </div>
         </div>
         <!-- Payee -->
-        <!-- <FormLine :clickHandler="thing" label="Payee">
-            <select name="payee" class="bg-transparent border-0 focus:outline-none w-2/3">
-                <option v-for="budget in budgets" :key="budget.id">{{ budget.name }}</option>
-            </select>
-        </FormLine> -->
         <button @click="thing" class="flex items-center justify-between border-b border-gray-200 px-4 py-2 w-full bg-gray-50 hover:bg-gray-100 focus:outline-none">
             <span class="w-1/4 text-sm text-left font-medium text-gray-700">Payee</span>
             <div class="flex items-center justify-end w-3/4">

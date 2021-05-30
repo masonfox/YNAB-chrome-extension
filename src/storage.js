@@ -15,9 +15,7 @@ const storage = {
         })
     },
     set (obj) {
-        sync.set(obj, (response) => {
-            console.log('set response', response)
-        })
+        sync.set(obj)
     },
     remove () {
 

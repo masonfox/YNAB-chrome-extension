@@ -1,68 +1,80 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import api from '@/api.js'
-import storage from '@/storage.js'
-import { isEmpty } from '@/utilities.js'
+import Vue from "vue";
+import Vuex from "vuex";
+import api from "@/api.js";
+import storage from "@/storage.js";
+import { isEmpty } from "@/utilities.js";
+import { budgets, payees, accounts, categories } from "@/data.js";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
     userId: null,
     activeBudgetId: null,
-    budgets: [],
-    accounts: [],
-    payees: [],
-    categories: [],
+    budgets,
+    accounts,
+    payees,
+    categories,
     slideouts: {
       information: false,
-      settings: false
-    }
+      settings: false,
+    },
   },
-  getters: {
-
-  },
+  getters: {},
   mutations: {
     setActiveBudget(state, id) {
-      state.activeBudgetId = id
-      storage.set({ 'activeBudgetId': id })
+      state.activeBudgetId = id;
+      storage.set({ activeBudgetId: id });
     },
-    setBudgets (state, payload) {
-      state.budgets = payload
+    setBudgets(state, payload) {
+      state.budgets = payload;
     },
-    setAccounts (state, payload) {
-      state.accounts = payload
+    setAccounts(state, payload) {
+      state.accounts = payload;
     },
-    setPayees (state, payload) {
+    setCategories(state, payload) {
+      state.categories = payload;
+    },
+    setPayees(state, payload) {
       state.payees = payload;
     },
     toggleSlideout(state, key) {
-      state.slideouts[key] = !state.slideouts[key]
-    }
+      state.slideouts[key] = !state.slideouts[key];
+    },
   },
   actions: {
-    async fetchBudgets ({ commit }) {
-        const response = await api.budgets.getBudgets()
-        console.log(response.data.budgets)
-        commit('setBudgets', response.data.budgets)
-        // storage.set({ budgets: response.data.budgets })
+    async fetchToken() {
+      return;
     },
-    async fetchActiveBudgetId ({ commit }) {
-      const response = await storage.get('activeBudgetId')
+    async fetchBudgets() {
+      const response = await api.budgets.getBudgets();
+      console.log(response);
+      // commit("setBudgets", response.data.budgets);
+      // storage.set({ budgets: response.data.budgets })
+    },
+    async fetchActiveBudgetId({ commit }) {
+      const response = await storage.get("activeBudgetId");
       if (!isEmpty(response)) {
-        console.log(`ACTIVE BUDGET ID ${response.activeBudgetId}`)
-        commit('setActiveBudget', response.activeBudgetId)
+        console.info(
+          `Active Budget ID: %c${response.activeBudgetId}`,
+          "background-color: blue"
+        );
+        commit("setActiveBudget", response.activeBudgetId);
       } else {
-        console.warn('NO ACTIVE BUDGET ID')
+        console.warn("NO ACTIVE BUDGET ID");
       }
     },
-    async fetchAccounts ({ commit, state }) {
-      const response = await api.accounts.getAccounts(state.activeBudgetId)
-      commit('setAccounts', response.data.accounts)
+    async fetchAccounts({ commit, state }) {
+      const response = await api.accounts.getAccounts(state.activeBudgetId);
+      commit("setAccounts", response.data.accounts);
     },
-    async fetchPayees ({ commit, state }) {
-      const response = await api.payees.getPayees(state.activeBudgetId)
-      commit('setPayees',  response.data.payees)
-    }
-  }
-})
+    async fetchCategories({ commit, state }) {
+      const response = await api.categories.getCategories(state.activeBudgetId);
+      commit("setCategories", response.data.categories);
+    },
+    async fetchPayees({ commit, state }) {
+      const response = await api.payees.getPayees(state.activeBudgetId);
+      commit("setPayees", response.data.payees);
+    },
+  },
+});
