@@ -10,7 +10,7 @@ This will likely change in the future. However, for now, you'll need to do the f
 
 1. Convert the `.env.example` to a `.env`
 1. Receive a [personal access token from YNAB](https://api.youneedabudget.com/#personal-access-tokens)
-1. Apply this token value to the `YNAB_TOKEN` key in your `.env` file
+1. Apply this token value to the `VUE_APP_YNAB_TOKEN` key in your `.env` file
 
 ## Usage
 
