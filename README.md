@@ -4,6 +4,14 @@ A simple [YNAB](https://www.youneedabudget.com/) transaction addition tool in Ch
 
 This is built on Kocal's [vue-web-extension](https://github.com/Kocal/vue-web-extension/tree/master).
 
+## Authentication
+
+This will likely change in the future. However, for now, you'll need to do the following:
+
+1. Convert the `.env.example` to a `.env`
+1. Receive a [personal access token from YNAB](https://api.youneedabudget.com/#personal-access-tokens)
+1. Apply this token value to the `YNAB_TOKEN` key in your `.env` file
+
 ## Usage
 
 Both commands below will populate the `dist` folder of the project - do this first. This folder can be loaded into Chrome for development.
