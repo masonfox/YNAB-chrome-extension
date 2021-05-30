@@ -2,9 +2,18 @@
 
 A simple [YNAB](https://www.youneedabudget.com/) transaction addition tool in Chrome Browser extension form!
 
-This is built on Kocal's [vue-web-extension](https://github.com/Kocal/vue-web-extension/tree/master)
+This is built on Kocal's [vue-web-extension](https://github.com/Kocal/vue-web-extension/tree/master).
 
 ## Usage
+
+Both commands below will populate the `dist` folder of the project - do this first. This folder can be loaded into Chrome for development.
+
+1. In Chrome, click the extensions icon to the left of your profile to expand the list of extensions
+1. Click "Manage Extensions"
+1. Click "Load Unpacked"
+1. Navigate to the `dist` folder and load that
+1. Click the extensions icon again, find it at the bottom, and pin it
+1. Click it in the extension bar to open it
 
 ### `npm run build`
 
