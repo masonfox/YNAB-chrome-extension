@@ -16,7 +16,7 @@
             stroke-linecap="round"
             stroke-linejoin="round"
             stroke-width="2"
-            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+            d="M15 19l-7-7 7-7"
           />
         </svg>
       </button>
@@ -27,40 +27,65 @@
     <div class="">
       <input
         type="text"
-        class="w-full text-sm border-0 outline-0 focus:ring-0"
+        class="w-full text-sm border-0 outline-0 focus:ring-0 px-4"
         v-model="filter"
         :placeholder="'Filter ' + name"
       />
     </div>
     <!-- list props data -->
     <nav class="h-full overflow-y-auto" aria-label="Directory">
-      <div
-        class="relative"
-        v-for="(item, key) in formattedData"
-        :key="key"
-        v-show="hasFilteredData"
-      >
-        <div
-          class="z-10 sticky top-0 border-t border-b border-gray-200 bg-gray-50 px-6 py-1 text-sm font-medium text-gray-500"
-        >
-          <h3>{{ key }}</h3>
+      <div v-if="listStyle == 'stacked' && hasFilteredData">
+        <div class="relative" v-for="(item, key) in formattedData" :key="key">
+          <div
+            class="z-10 sticky top-0 border-t border-b border-gray-200 bg-gray-50 px-4 py-1 text-sm font-medium text-gray-500"
+          >
+            <h3>{{ key }}</h3>
+          </div>
+          <ul class="relative z-0 divide-y divide-gray-200">
+            <li
+              class="bg-white"
+              @click="handleSelect(subItem.id)"
+              v-for="subItem in item"
+              :key="subItem.id"
+            >
+              <div
+                class="relative px-4 py-3 flex items-center space-x-3 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500"
+              >
+                <div class="flex-1 min-w-0">
+                  <a href="#" class="focus:outline-none">
+                    <!-- Extend touch target to entire panel -->
+                    <span class="absolute inset-0" aria-hidden="true"></span>
+                    <p class="text-sm font-medium text-gray-900">
+                      {{ subItem.name }}
+                    </p>
+                  </a>
+                </div>
+              </div>
+            </li>
+          </ul>
         </div>
+      </div>
+      <!-- flat list render -->
+      <div
+        v-if="listStyle == 'flat' && hasFilteredData"
+        class="border-t border-gray-200"
+      >
         <ul class="relative z-0 divide-y divide-gray-200">
           <li
             class="bg-white"
-            @click="handleSelect(subItem.id)"
-            v-for="subItem in item"
-            :key="subItem.id"
+            @click="handleSelect(item.id)"
+            v-for="item in formattedData"
+            :key="item.id"
           >
             <div
-              class="relative px-6 py-4 flex items-center space-x-3 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500"
+              class="relative px-4 py-3 flex items-center space-x-3 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500"
             >
               <div class="flex-1 min-w-0">
                 <a href="#" class="focus:outline-none">
                   <!-- Extend touch target to entire panel -->
                   <span class="absolute inset-0" aria-hidden="true"></span>
                   <p class="text-sm font-medium text-gray-900">
-                    {{ subItem.name }}
+                    {{ item.name }}
                   </p>
                 </a>
               </div>
@@ -92,6 +117,14 @@ export default {
       type: Array,
       required: true,
     },
+    listStyle: {
+      type: String,
+      validator: (value) => {
+        // flat lists all items, stacked sorts them by alphabetical
+        // and then places them under those sticky headers
+        return ["flat", "stacked"].includes(value);
+      },
+    },
   },
   data() {
     return {
@@ -100,15 +133,26 @@ export default {
   },
   computed: {
     filteredData() {
-      return this.data.filter((item) => {
-        console.log(item);
-        return item.name.includes(this.filter);
-      });
+      // BUG: doesn't seem to be filtering appropriately
+      // BUG: sort doesn't want to work
+      return [...this.data]
+        .sort((a, b) => {
+          return b.name < a.name;
+        })
+        .filter((item) => {
+          return item.name.toLowerCase().includes(this.filter.toLowerCase());
+        });
     },
     hasFilteredData() {
       return this.filteredData.length > 0;
     },
     formattedData() {
+      return this.listStyle == "flat" ? this.flatList : this.stackedList;
+    },
+    flatList() {
+      return this.filteredData;
+    },
+    stackedList() {
       const final = {};
 
       // filtered data is retrieved from computed property above
@@ -122,21 +166,21 @@ export default {
 
         // handle new and existing update
         final[firstCharName].push(element);
-
-        console.log(`Added ${element.name} to ${firstCharName.toUpperCase()}`);
       }
-
-      console.log("FINAL", final);
 
       return final;
     },
   },
   methods: {
     handleSelect(id) {
-      console.log(`User selected ${id} in the ${this.name} modal`);
+      this.$emit("select", {
+        name: this.name,
+        id,
+      });
       this.close();
     },
     close() {
+      this.filter = "";
       this.$emit("close-modal", this.name);
       // return to top
     },

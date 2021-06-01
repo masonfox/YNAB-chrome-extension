@@ -79,58 +79,68 @@
     </div>
     <!-- Payee -->
     <button
-      @click="thing"
+      @click="toggleSelectModalVisibility('Payees')"
       class="flex items-center justify-between border-b border-gray-200 px-4 py-2 w-full bg-gray-50 hover:bg-gray-100 focus:outline-none"
     >
       <span class="w-1/4 text-sm text-left font-medium text-gray-700"
         >Payee</span
       >
-      <div class="flex items-center justify-end w-3/4">
-        <span class="text-base mr-1">Selected Payee</span>
-        <!-- chevron right -->
-        <svg
-          class="relative h-4 w-4 ml-.05 text-gray-400"
-          style="top: 1px"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M9 5l7 7-7 7"
-          />
-        </svg>
+      <div class="flex justify-end w-3/4 text-base">
+        <span v-if="form.payeeId !== null">
+          <span>{{ payee.name }}</span>
+        </span>
+        <span class="flex items-center" v-else>
+          <span class="mr-1">Select Payee</span>
+          <!-- chevron right -->
+          <svg
+            class="relative h-4 w-4 ml-.05 text-gray-400"
+            style="top: 1px"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 5l7 7-7 7"
+            />
+          </svg>
+        </span>
       </div>
     </button>
     <!-- Category -->
     <button
-      @click="thing"
+      @click="toggleSelectModalVisibility('Categories')"
       class="flex items-center justify-between border-b border-gray-200 px-4 py-2 w-full bg-gray-50 hover:bg-gray-100 focus:outline-none"
     >
       <span class="w-1/4 text-sm text-left font-medium text-gray-700"
         >Category</span
       >
-      <div class="flex items-center justify-end w-3/4">
-        <span class="text-base mr-1">Selected Category</span>
-        <!-- chevron right -->
-        <svg
-          class="relative h-4 w-4 ml-.05 text-gray-400"
-          style="top: 1px"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M9 5l7 7-7 7"
-          />
-        </svg>
+      <div class="flex justify-end w-3/4 text-base">
+        <span v-if="form.categoryId !== null">
+          <span>{{ category.name }}</span>
+        </span>
+        <span class="flex items-center" v-else>
+          <span class="mr-1">Select Category</span>
+          <!-- chevron right -->
+          <svg
+            class="relative h-4 w-4 ml-.05 text-gray-400"
+            style="top: 1px"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 5l7 7-7 7"
+            />
+          </svg>
+        </span>
       </div>
     </button>
     <!-- Account -->
@@ -141,24 +151,29 @@
       <span class="w-1/4 text-sm text-left font-medium text-gray-700"
         >Account</span
       >
-      <div class="flex items-center justify-end w-3/4">
-        <span class="text-base mr-1">Selected Account</span>
-        <!-- chevron right -->
-        <svg
-          class="relative h-4 w-4 ml-.05 text-gray-400"
-          style="top: 1px"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M9 5l7 7-7 7"
-          />
-        </svg>
+      <div class="flex justify-end w-3/4 text-base">
+        <span v-if="form.accountId !== null">
+          <span>{{ account.name }}</span>
+        </span>
+        <span class="flex items-center" v-else>
+          <span class="mr-1">Select Account</span>
+          <!-- chevron right -->
+          <svg
+            class="relative h-4 w-4 ml-.05 text-gray-400"
+            style="top: 1px"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 5l7 7-7 7"
+            />
+          </svg>
+        </span>
       </div>
     </button>
     <!-- Date -->
@@ -228,13 +243,31 @@
     <SelectModal
       name="Accounts"
       :data="formattedAccounts"
+      listStyle="flat"
       v-show="visibleModals.Accounts"
+      v-on:select="handleSelect"
+      v-on:close-modal="toggleSelectModalVisibility"
+    />
+    <SelectModal
+      name="Payees"
+      :data="formattedPayees"
+      listStyle="stacked"
+      v-show="visibleModals.Payees"
+      v-on:select="handleSelect"
+      v-on:close-modal="toggleSelectModalVisibility"
+    />
+    <SelectModal
+      name="Categories"
+      :data="formattedCategories"
+      listStyle="stacked"
+      v-show="visibleModals.Categories"
+      v-on:select="handleSelect"
       v-on:close-modal="toggleSelectModalVisibility"
     />
 
-    <!-- <pre class="mt-5">
+    <pre class="mt-5">
         <code>{{ form }}</code>
-    </pre> -->
+    </pre>
   </div>
 </template>
 
@@ -253,8 +286,7 @@ export default {
       form: {
         type: "debit", // or credit
         amount: 1000.0,
-        categories: [],
-        budgetId: null,
+        categoryId: null,
         payeeId: null,
         accountId: null,
         cleared: false,
@@ -262,26 +294,36 @@ export default {
         date: null,
       },
       visibleModals: {
-        Accounts: true,
+        Accounts: false,
+        Payees: false,
+        Categories: false,
       },
     };
   },
   computed: {
-    // getBudgetById() {
-
-    // },
+    budgetId() {
+      return this.$store.state.activeBudgetId;
+    },
     budgets() {
       return this.$store.state.budgets;
     },
-    // getPayeeById() {
-
-    // },
-    // payees() {
-
-    // },
-    // getAccountById() {
-
-    // },
+    payee() {
+      return this.$store.getters.getPayeeById(this.form.payeeId);
+    },
+    payees() {
+      return this.$store.getters.currentPayees;
+    },
+    // returns a single account by id
+    account() {
+      return this.$store.getters.getAccountById(this.form.accountId);
+    },
+    category() {
+      return this.$store.getters.getCategoryById(this.form.categoryId);
+    },
+    categories() {
+      return this.$store.getters.currentCategories;
+    },
+    // returns all accounts
     accounts() {
       return this.$store.state.accounts;
     },
@@ -290,6 +332,22 @@ export default {
         return {
           id: account.id,
           name: account.name,
+        };
+      });
+    },
+    formattedPayees() {
+      return this.payees.map((payee) => {
+        return {
+          id: payee.id,
+          name: payee.name,
+        };
+      });
+    },
+    formattedCategories() {
+      return this.categories.map((category) => {
+        return {
+          id: category.id,
+          name: category.name,
         };
       });
     },
@@ -315,6 +373,23 @@ export default {
     },
     handleInput(key, val) {
       this.form[key] = val;
+    },
+    handleSelect({ name, id }) {
+      let key = null;
+
+      switch (name) {
+        case "Accounts":
+          key = "accountId";
+          break;
+        case "Payees":
+          key = "payeeId";
+          break;
+        case "Categories":
+          key = "categoryId";
+          break;
+      }
+
+      this.handleInput(key, id);
     },
     toggleSelectModalVisibility(name) {
       console.log(name, this.visibleModals);

@@ -20,7 +20,29 @@ export default new Vuex.Store({
       settings: false,
     },
   },
-  getters: {},
+  getters: {
+    currentPayees(state) {
+      // YNAB has a "deleted" key that can be true or false for payees
+      return state.payees.filter((payee) => {
+        return payee.deleted == false;
+      });
+    },
+    currentCategories(state) {
+      // YNAB has a "deleted" and "hidden" key that can be true or false for categories
+      return state.categories.filter((category) => {
+        return category.deleted == false && category.hidden == false;
+      });
+    },
+    getPayeeById: (state) => (id) => {
+      return state.payees.find((payee) => payee.id == id);
+    },
+    getAccountById: (state) => (id) => {
+      return state.accounts.find((account) => account.id == id);
+    },
+    getCategoryById: (state) => (id) => {
+      return state.categories.find((category) => category.id == id);
+    },
+  },
   mutations: {
     setActiveBudget(state, id) {
       state.activeBudgetId = id;
