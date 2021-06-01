@@ -178,14 +178,19 @@
     </button>
     <!-- Date -->
     <button
-      @click="thing"
       class="flex items-center justify-between border-b border-gray-200 px-4 py-2 w-full bg-gray-50 hover:bg-gray-100 focus:outline-none"
     >
       <span class="w-1/4 text-sm text-left font-medium text-gray-700"
         >Date</span
       >
       <div class="flex justify-end w-3/4">
-        <span class="text-base mr-1">March 17th, 2021</span>
+        <!-- <span class="text-base mr-1">March 17th, 2021</span> -->
+        <datepicker
+          v-model="form.date"
+          wrapper-class="datepicker"
+          input-class="datepicker-input"
+          :format="dateFormatter"
+        ></datepicker>
       </div>
     </button>
 
@@ -274,12 +279,14 @@
 <script>
 // import FormLine from '@/components/utilities/FormLine.vue'
 import SelectModal from "@/components/SelectModal.vue";
+import Datepicker from "vuejs-datepicker";
 
 export default {
   name: "AddTransactionView",
   components: {
     // FormLine,
     SelectModal,
+    Datepicker,
   },
   data() {
     return {
@@ -291,7 +298,7 @@ export default {
         accountId: null,
         cleared: false,
         memo: "",
-        date: null,
+        date: new Date(),
       },
       visibleModals: {
         Accounts: false,
@@ -395,8 +402,28 @@ export default {
       console.log(name, this.visibleModals);
       this.visibleModals[name] = !this.visibleModals[name];
     },
-    thing() {
-      alert("woot");
+    dateFormatter(date) {
+      let months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ];
+      return (
+        months[date.getMonth()] +
+        " " +
+        date.getDate() +
+        ", " +
+        date.getFullYear()
+      );
     },
     submit() {
       // validation
@@ -410,5 +437,22 @@ export default {
 <style lang="scss">
 .form-line {
   @apply border-b border-gray-100 px-4 py-2 bg-white;
+}
+
+.vdp-datepicker__calendar {
+  position: absolute;
+  left: -6.8rem;
+  top: 2rem;
+}
+
+.datepicker-input {
+  background: transparent;
+  border: 0;
+  text-align: right;
+  padding: 0;
+
+  &:focus {
+    box-shadow: none;
+  }
 }
 </style>
