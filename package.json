@@ -17,6 +17,7 @@
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
+    "vuejs-datepicker": "^1.6.2",
     "vuex": "^3.4.0",
     "ynab": "^1.21.0"
   },
