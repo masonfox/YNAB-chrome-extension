@@ -237,8 +237,28 @@
 
     <div class="flex items-center justify-center mt-4 px-4">
       <button
+        @click="toggleSelectModalVisibility('ClearForm')"
+        class="w-2/12 text-center px-4 py-2 mr-1 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gray-300 hover:bg-gray-400 focus:outline-none focus:ring-0"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5 relative"
+          style="right: 4px;"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+          />
+        </svg>
+      </button>
+      <button
         @click="submit()"
-        class="w-full text-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-500 hover:bg-indigo-600 focus:outline-none focus:ring-0"
+        class="w-10/12 text-center px-4 py-2 ml-1 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-500 hover:bg-indigo-600 focus:outline-none focus:ring-0"
       >
         Save Transaction
       </button>
@@ -270,6 +290,32 @@
       v-on:close-modal="toggleSelectModalVisibility"
     />
 
+    <!-- Regular Modals -->
+    <Modal v-show="visibleModals.ClearForm">
+      <div>
+        <div class="mb-6 text-center">
+          <h3 class="font-bold text-base mb-1">Are you sure?</h3>
+          <p class="text-sm text-gray-400">
+            You'll lose your current information by clearing
+          </p>
+        </div>
+        <div class="flex justify-around">
+          <button
+            class="text-center px-3 py-1 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gray-400 hover:bg-gray-500 focus:outline-none focus:ring-0"
+            @click="toggleSelectModalVisibility('ClearForm')"
+          >
+            Cancel
+          </button>
+          <button
+            class="text-center px-3 py-1 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-400 hover:bg-red-500 focus:outline-none focus:ring-0"
+            @click="[toggleSelectModalVisibility('ClearForm'), resetForm()]"
+          >
+            Clear
+          </button>
+        </div>
+      </div>
+    </Modal>
+
     <pre class="mt-5">
         <code>{{ form }}</code>
     </pre>
@@ -278,6 +324,7 @@
 
 <script>
 // import FormLine from '@/components/utilities/FormLine.vue'
+import Modal from "@/components/utilities/Modal.vue";
 import SelectModal from "@/components/SelectModal.vue";
 import Datepicker from "vuejs-datepicker";
 import { ynab, api } from "@/ynab.js";
@@ -286,6 +333,7 @@ export default {
   name: "AddTransactionView",
   components: {
     // FormLine,
+    Modal,
     SelectModal,
     Datepicker,
   },
@@ -305,6 +353,7 @@ export default {
         Accounts: false,
         Payees: false,
         Categories: false,
+        ClearForm: false,
       },
     };
   },
