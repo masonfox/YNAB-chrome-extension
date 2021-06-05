@@ -152,7 +152,7 @@
         >Account</span
       >
       <div class="flex justify-end w-3/4 text-base">
-        <span v-if="form.accountId !== null">
+        <span v-if="accountId !== null">
           <span>{{ account.name }}</span>
         </span>
         <span class="flex items-center" v-else>
@@ -344,7 +344,6 @@ export default {
         amount: 500,
         categoryId: null,
         payeeId: null,
-        accountId: null,
         cleared: false,
         memo: "",
         date: ynab.utils.getCurrentDateInISOFormat(),
@@ -361,6 +360,9 @@ export default {
     budgetId() {
       return this.$store.state.activeBudgetId;
     },
+    accountId() {
+      return this.$store.state.accountId;
+    },
     budgets() {
       return this.$store.state.budgets;
     },
@@ -372,7 +374,7 @@ export default {
     },
     // returns a single account by id
     account() {
-      return this.$store.getters.getAccountById(this.form.accountId);
+      return this.$store.getters.getAccountById(this.accountId);
     },
     category() {
       return this.$store.getters.getCategoryById(this.form.categoryId);
@@ -436,6 +438,9 @@ export default {
     handleSelect({ name, id }) {
       let key = null;
 
+      // handle default account id update
+      if (name == "Accounts") this.$store.commit("setAccountId", id);
+
       switch (name) {
         case "Accounts":
           key = "accountId";
@@ -483,7 +488,7 @@ export default {
     submit() {
       // validation
       let transaction = {
-        account_id: this.form.accountId,
+        account_id: this.accountId,
         category_id: this.form.categoryId,
         payee_id: this.form.payeeId,
         cleared: this.form.cleared ? "cleared" : "uncleared",
