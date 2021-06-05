@@ -370,12 +370,8 @@ export default {
       return this.form.cleared;
     },
     amountToMilliunits() {
-      let miliunits = this.form.amount * 1000;
-      if (this.form.type == "debit") {
-        return miliunits * -1;
-      } else {
-        return miliunits;
-      }
+      let miliunits = this.form.amount * 1000; // base conversion
+      return this.form.type == "debit" ? miliunits * -1 : miliunits; // flip for debit, leave for credit
     },
   },
   methods: {
