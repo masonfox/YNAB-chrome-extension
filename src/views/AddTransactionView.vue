@@ -293,7 +293,7 @@ export default {
     return {
       form: {
         type: "debit", // or credit
-        amount: 1000.0,
+        amount: 500,
         categoryId: null,
         payeeId: null,
         accountId: null,
@@ -369,6 +369,14 @@ export default {
     isCleared() {
       return this.form.cleared;
     },
+    amountToMilliunits() {
+      let miliunits = this.form.amount * 1000;
+      if (this.form.type == "debit") {
+        return miliunits * -1;
+      } else {
+        return miliunits;
+      }
+    },
   },
   methods: {
     toggleTransactionType() {
@@ -435,7 +443,7 @@ export default {
         payee_id: this.form.payeeId,
         cleared: this.form.cleared ? "cleared" : "uncleared",
         date: this.form.date,
-        amount: -23430,
+        amount: this.amountToMilliunits,
         memo: this.form.memo,
       };
 
@@ -450,26 +458,6 @@ export default {
         });
     },
   },
-  // async mounted() {
-  //   const transaction = {
-  //     account_id: "30f2c31c-266f-4b89-8933-f9427496770f",
-  //     category_id: "ff8935c3-8a0f-4485-910c-be4a02d23119",
-  //     payee_id: null,
-  //     cleared: ynab.SaveTransaction.ClearedEnum.Cleared,
-  //     approved: true,
-  //     date: ynab.utils.getCurrentDateInISOFormat(),
-  //     amount: -23430,
-  //     memo: "Dry Cleaning",
-  //   };
-  //   try {
-  //     await api.transactions.createTransaction(this.budgetId, { transaction });
-  //   } catch (err) {
-  //     const error = err.error;
-  //     console.log(
-  //       `ERROR: id=${error.id}; name=${error.name}; detail: ${error.detail}`
-  //     );
-  //   }
-  // },
 };
 </script>
 
