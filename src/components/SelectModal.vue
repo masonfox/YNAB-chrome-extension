@@ -34,19 +34,50 @@
     </div>
     <!-- list props data -->
     <nav class="h-full overflow-y-auto" aria-label="Directory">
-      <div v-if="listStyle == 'stacked' && hasFilteredData">
-        <div class="relative" v-for="(item, key) in formattedData" :key="key">
-          <div
-            class="z-10 sticky top-0 border-t border-b border-gray-200 bg-gray-50 px-4 py-1 text-sm font-medium text-gray-500"
-          >
-            <h3>{{ key }}</h3>
+      <!-- data structure is different -->
+      <div v-if="name !== 'Categories'">
+        <div v-if="listStyle == 'stacked' && hasFilteredData">
+          <div class="relative" v-for="(item, key) in formattedData" :key="key">
+            <div
+              class="z-10 sticky top-0 border-t border-b border-gray-200 bg-gray-50 px-4 py-1 text-sm font-medium text-gray-500"
+            >
+              <h3>{{ key }}</h3>
+            </div>
+            <ul class="relative z-0 divide-y divide-gray-200">
+              <li
+                class="bg-white"
+                @click="handleSelect(subItem.id)"
+                v-for="subItem in item"
+                :key="subItem.id"
+              >
+                <div
+                  class="relative px-4 py-3 flex items-center space-x-3 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500"
+                >
+                  <div class="flex-1 min-w-0">
+                    <a href="#" class="focus:outline-none">
+                      <!-- Extend touch target to entire panel -->
+                      <span class="absolute inset-0" aria-hidden="true"></span>
+                      <p class="text-sm font-medium text-gray-900">
+                        {{ subItem.name }}
+                      </p>
+                    </a>
+                  </div>
+                </div>
+              </li>
+            </ul>
           </div>
+        </div>
+        <!-- flat list render -->
+        <div
+          v-if="listStyle == 'flat' && hasFilteredData"
+          class="border-t border-gray-200"
+        >
           <ul class="relative z-0 divide-y divide-gray-200">
             <li
               class="bg-white"
-              @click="handleSelect(subItem.id)"
-              v-for="subItem in item"
-              :key="subItem.id"
+              @click="handleSelect(item.id)"
+              v-for="item in formattedData"
+              :key="item.id"
             >
               <div
                 class="relative px-4 py-3 flex items-center space-x-3 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500"
@@ -56,7 +87,7 @@
                     <!-- Extend touch target to entire panel -->
                     <span class="absolute inset-0" aria-hidden="true"></span>
                     <p class="text-sm font-medium text-gray-900">
-                      {{ subItem.name }}
+                      {{ item.name }}
                     </p>
                   </a>
                 </div>
@@ -64,42 +95,51 @@
             </li>
           </ul>
         </div>
+        <!-- if there aren't any items after filter -->
+        <div
+          class="flex justify-center items-center flex-col text-center border-t border-gray-200 p-5"
+          v-show="!hasFilteredData"
+        >
+          <h2 class="text-base font-bold">Yikes!</h2>
+          <p class="text-sm text-gray-500">We didn't find any of those!</p>
+        </div>
       </div>
-      <!-- flat list render -->
-      <div
-        v-if="listStyle == 'flat' && hasFilteredData"
-        class="border-t border-gray-200"
-      >
-        <ul class="relative z-0 divide-y divide-gray-200">
-          <li
-            class="bg-white"
-            @click="handleSelect(item.id)"
-            v-for="item in formattedData"
-            :key="item.id"
+
+      <!-- if it is the category modal -->
+      <div v-else>
+        <div
+          class="relative"
+          v-for="categoryGroup in data"
+          :key="categoryGroup.id"
+        >
+          <div
+            class="z-10 sticky top-0 border-t border-b border-gray-200 bg-gray-50 px-4 py-1 text-sm font-medium text-gray-500"
           >
-            <div
-              class="relative px-4 py-3 flex items-center space-x-3 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500"
+            <h3>{{ categoryGroup.name }}</h3>
+          </div>
+          <ul class="relative z-0 divide-y divide-gray-200">
+            <li
+              class="bg-white"
+              @click="handleSelect(category.id)"
+              v-for="category in categoryGroup.categories"
+              :key="category.id"
             >
-              <div class="flex-1 min-w-0">
-                <a href="#" class="focus:outline-none">
-                  <!-- Extend touch target to entire panel -->
-                  <span class="absolute inset-0" aria-hidden="true"></span>
-                  <p class="text-sm font-medium text-gray-900">
-                    {{ item.name }}
-                  </p>
-                </a>
+              <div
+                class="relative px-4 py-3 flex items-center space-x-3 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500"
+              >
+                <div class="flex-1 min-w-0">
+                  <a href="#" class="focus:outline-none">
+                    <!-- Extend touch target to entire panel -->
+                    <span class="absolute inset-0" aria-hidden="true"></span>
+                    <p class="text-sm font-medium text-gray-900">
+                      {{ category.name }}
+                    </p>
+                  </a>
+                </div>
               </div>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <!-- if there aren't any items after filter -->
-      <div
-        class="flex justify-center items-center flex-col text-center border-t border-gray-200 p-5"
-        v-show="!hasFilteredData"
-      >
-        <h2 class="text-base font-bold">Yikes!</h2>
-        <p class="text-sm text-gray-500">We didn't find any of those!</p>
+            </li>
+          </ul>
+        </div>
       </div>
     </nav>
   </div>
