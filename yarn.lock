@@ -8496,6 +8496,11 @@ vue-cli-plugin-tailwind@~2.0.6:
   resolved "https://registry.yarnpkg.com/vue-cli-plugin-tailwind/-/vue-cli-plugin-tailwind-2.0.6.tgz#c68d5f00aaae49896cf88d5dd341bcbdc900ee0a"
   integrity sha512-HgR3gSmlnypNU+hlqoiRBJsnShXSoig4XTFNZiPlyVZBtkDZdfD884wTxz+GDJHzWLPtv4wnAyuO95UCsPbyoQ==
 
+vue-currency-input@^1.22.6:
+  version "1.22.6"
+  resolved "https://registry.yarnpkg.com/vue-currency-input/-/vue-currency-input-1.22.6.tgz#1fed0dabb8a46a5537daca9371942f3d4f3a08fc"
+  integrity sha512-BUq8aysiZ1pdRyyWyIgxYz4+PBQwgVeAqxNr8ZOGaudA8YqEv2S5Plze0LjI/pbinX4+ma1sIIzStXZPxMy0/Q==
+
 vue-eslint-parser@^7.0.0:
   version "7.6.0"
   resolved "https://registry.yarnpkg.com/vue-eslint-parser/-/vue-eslint-parser-7.6.0.tgz#01ea1a2932f581ff244336565d712801f8f72561"

@@ -7,7 +7,7 @@
         <button
           type="button"
           @click="toggleTransactionType()"
-          class="relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-md cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none"
+          class="relative inline-flex f1ex-shrink-0 h-6 w-2/12 border-2 border-transparent rounded-md cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none"
           :class="[isDebit ? 'bg-red-500' : 'bg-green-500']"
           aria-pressed="false"
         >
@@ -69,11 +69,16 @@
             </span>
           </span>
         </button>
-        <input
-          type="text"
+        <currency-input
           v-model="form.amount"
-          class="w-24 h-4 text-right text-lg font-semibold focus:ring-0 border-0"
+          class="w-10/12 h-4 text-right text-xl
+        font-semibold focus:outline-none"
           :class="[isDebit ? 'text-red-500' : 'text-green-500']"
+          :currency="null"
+          locale="en"
+          :distraction-free="false"
+          :valueRange="{ min: 0 }"
+          :allow-negative="false"
         />
       </div>
     </div>
@@ -324,6 +329,7 @@
 
 <script>
 // import FormLine from '@/components/utilities/FormLine.vue'
+import { CurrencyInput } from "vue-currency-input";
 import Modal from "@/components/utilities/Modal.vue";
 import SelectModal from "@/components/SelectModal.vue";
 import Datepicker from "vuejs-datepicker";
@@ -333,6 +339,7 @@ export default {
   name: "AddTransactionView",
   components: {
     // FormLine,
+    CurrencyInput,
     Modal,
     SelectModal,
     Datepicker,
