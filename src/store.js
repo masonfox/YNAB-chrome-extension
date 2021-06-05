@@ -11,7 +11,7 @@ export default new Vuex.Store({
   state: {
     userId: null,
     activeBudgetId: null,
-    budgets: [],
+    accountId: null,
     accounts: [],
     payees: [],
     categoryGroups: [],
@@ -90,6 +90,9 @@ export default new Vuex.Store({
     },
     toggleSlideout(state, key) {
       state.slideouts[key] = !state.slideouts[key];
+    },
+    setAccountId(state, val) {
+      state.accountId = val;
     },
   },
   actions: {
