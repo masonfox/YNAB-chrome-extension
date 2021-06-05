@@ -16,12 +16,14 @@ new Vue({
   store,
   render: (h) => h(App),
   created() {
-    // store.dispatch("fetchBudgets");
-    // store.dispatch('fetchPayees')
-    // store.dispatch('fetchCategories')
-    // store.dispatch('fetchAccounts')
-  },
-  mounted() {
-    console.log(store.state);
+    store.dispatch("fetchBudgets");
+    // fetch the budget id before trying any other request - budget id is required
+    store.dispatch("fetchActiveBudgetId").then(() => {
+      if (this.$store.getters.hasBudgetId) {
+        store.dispatch("fetchPayees");
+        store.dispatch("fetchCategories");
+        store.dispatch("fetchAccounts");
+      }
+    });
   },
 }).$mount("#app");
