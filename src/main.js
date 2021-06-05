@@ -3,7 +3,7 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router.js";
 import store from "./store.js";
-import api from "./api.js";
+import { api } from "./ynab.js";
 import storage from "@/storage.js";
 
 Vue.config.productionTip = false;

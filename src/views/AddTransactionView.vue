@@ -280,6 +280,7 @@
 // import FormLine from '@/components/utilities/FormLine.vue'
 import SelectModal from "@/components/SelectModal.vue";
 import Datepicker from "vuejs-datepicker";
+import { ynab, api } from "@/ynab.js";
 
 export default {
   name: "AddTransactionView",
@@ -298,7 +299,7 @@ export default {
         accountId: null,
         cleared: false,
         memo: "",
-        date: new Date(),
+        date: ynab.utils.getCurrentDateInISOFormat(),
       },
       visibleModals: {
         Accounts: false,

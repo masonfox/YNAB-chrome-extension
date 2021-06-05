@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import api from "@/api.js";
+import { api } from "@/ynab.js";
 import storage from "@/storage.js";
 import { isEmpty } from "@/utilities.js";
 import { budgets, payees, accounts, categories } from "@/data.js";
