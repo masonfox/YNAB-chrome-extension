@@ -90,29 +90,27 @@
       <span class="w-1/4 text-sm text-left font-medium text-gray-700"
         >Payee</span
       >
-      <div class="flex justify-end w-3/4 text-base">
-        <span v-if="form.payeeId !== null">
-          <span>{{ payee.name }}</span>
-        </span>
-        <span class="flex items-center" v-else>
-          <span class="mr-1">Select Payee</span>
-          <!-- chevron right -->
-          <svg
-            class="relative h-4 w-4 ml-.05 text-gray-400"
-            style="top: 1px"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 5l7 7-7 7"
-            />
-          </svg>
-        </span>
+      <div class="flex justify-end w-3/4 items-center text-base">
+        <span class="truncate-elipsis" v-if="form.payeeId !== null">{{
+          payee.name
+        }}</span>
+        <span v-else>Select Payee</span>
+        <!-- chevron right -->
+        <svg
+          class="relative h-4 w-4 ml-1 text-gray-400"
+          style="top: 1px"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 5l7 7-7 7"
+          />
+        </svg>
       </div>
     </button>
     <!-- Category -->
@@ -123,29 +121,27 @@
       <span class="w-1/4 text-sm text-left font-medium text-gray-700"
         >Category</span
       >
-      <div class="flex justify-end w-3/4 text-base">
-        <span v-if="form.categoryId !== null">
-          <span>{{ category.name }}</span>
-        </span>
-        <span class="flex items-center" v-else>
-          <span class="mr-1">Select Category</span>
-          <!-- chevron right -->
-          <svg
-            class="relative h-4 w-4 ml-.05 text-gray-400"
-            style="top: 1px"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 5l7 7-7 7"
-            />
-          </svg>
-        </span>
+      <div class="flex justify-end w-3/4 items-center text-base">
+        <span class="truncate" v-if="form.categoryId !== null">{{
+          category.name
+        }}</span>
+        <span v-else>Select Category</span>
+        <!-- chevron right -->
+        <svg
+          class="relative h-4 w-4 ml-1 text-gray-400"
+          style="top: 1px"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 5l7 7-7 7"
+          />
+        </svg>
       </div>
     </button>
     <!-- Account -->
@@ -156,48 +152,50 @@
       <span class="w-1/4 text-sm text-left font-medium text-gray-700"
         >Account</span
       >
-      <div class="flex justify-end w-3/4 text-base">
-        <span v-if="accountId !== null">
-          <span>{{ account.name }}</span>
-        </span>
-        <span class="flex items-center" v-else>
-          <span class="mr-1">Select Account</span>
-          <!-- chevron right -->
-          <svg
-            class="relative h-4 w-4 ml-.05 text-gray-400"
-            style="top: 1px"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 5l7 7-7 7"
-            />
-          </svg>
-        </span>
+      <div class="flex justify-end items-center w-3/4 text-base">
+        <span class="truncate" v-if="accountId !== null">{{
+          account.name
+        }}</span>
+        <span v-else>Select Account</span>
+        <!-- chevron right -->
+        <svg
+          class="relative h-4 w-4 ml-1 text-gray-400"
+          style="top: 1px;"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 5l7 7-7 7"
+          />
+        </svg>
       </div>
     </button>
     <!-- Date -->
-    <button
-      class="flex items-center justify-between border-b border-gray-200 px-4 py-2 w-full bg-gray-50 hover:bg-gray-100 focus:outline-none"
+    <div
+      class="flex items-center justify-between border-b border-gray-200 px-4 py-2 w-full bg-gray-50 hover:bg-gray-100"
     >
-      <span class="w-1/4 text-sm text-left font-medium text-gray-700"
-        >Date</span
+      <button
+        @click="$refs.datePicker.showCalendar()"
+        class="w-1/4 text-sm text-left font-medium text-gray-700 focus:outline-none"
       >
+        Date
+      </button>
       <div class="flex justify-end w-3/4">
         <!-- <span class="text-base mr-1">March 17th, 2021</span> -->
         <datepicker
+          ref="datePicker"
           v-model="form.date"
           wrapper-class="datepicker"
           input-class="datepicker-input"
           :format="dateFormatter"
         ></datepicker>
       </div>
-    </button>
+    </div>
 
     <div class="block px-4 py-2 w-full mt-5">
       <p class="text-gray-500 text-xs font-medium uppercase tracking-wide">
@@ -520,7 +518,7 @@ export default {
 
 <style lang="scss">
 .form-line {
-  @apply border-b border-gray-100 px-4 py-2 bg-white;
+  @apply border-b border-gray-200 px-4 py-2 bg-white;
 }
 
 .vdp-datepicker__calendar {
@@ -534,6 +532,7 @@ export default {
   border: 0;
   text-align: right;
   padding: 0;
+  cursor: pointer;
 
   &:focus {
     box-shadow: none;
