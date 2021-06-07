@@ -91,7 +91,7 @@
         >Payee</span
       >
       <div class="flex justify-end w-3/4 items-center text-base">
-        <span class="truncate-elipsis" v-if="form.payeeId !== null">{{
+        <span class="truncate" v-if="form.payeeId !== null">{{
           payee.name
         }}</span>
         <span v-else>Select Payee</span>
