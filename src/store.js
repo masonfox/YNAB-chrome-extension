@@ -3,7 +3,7 @@ import Vuex from "vuex";
 import { api } from "@/ynab.js";
 import storage from "@/storage.js";
 import { isEmpty } from "@/utilities.js";
-// import { budgets, payees, accounts } from "@/data.js";
+// import { budgets, payees, accounts, categories } from "@/data.js";
 
 Vue.use(Vuex);
 
@@ -12,6 +12,7 @@ export default new Vuex.Store({
     userId: null,
     activeBudgetId: null,
     accountId: null,
+    budgets: [],
     accounts: [],
     payees: [],
     categoryGroups: [],
@@ -64,12 +65,8 @@ export default new Vuex.Store({
       state.accounts = payload;
     },
     setCategories(state, payload) {
-      console.log("payload", payload);
       let categoryGroups = [];
       let categories = [];
-
-      // always remove "first" category group
-      // payload.shift()
 
       // flatten the payload
       payload.forEach((categoryGroup) => {
@@ -80,8 +77,6 @@ export default new Vuex.Store({
         }
       });
 
-      console.log("category groups", categoryGroups);
-      console.log("categories", categories);
       state.categoryGroups = categoryGroups;
       state.categories = categories;
     },
