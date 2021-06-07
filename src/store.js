@@ -119,13 +119,13 @@ export default new Vuex.Store({
     async fetchAccounts({ commit, state }) {
       const response = await api.accounts.getAccounts(state.activeBudgetId);
       commit("setAccounts", response.data.accounts);
+      commit("setAccountId", response.data.accounts[0].id);
     },
     async fetchCategories({ commit, state }) {
       const response = await api.categories.getCategories(state.activeBudgetId);
 
       // override the "Internal Master Category" and hide it
       response.data.category_groups[0]["hidden"] = true;
-
       commit("setCategories", response.data.category_groups);
     },
     async fetchPayees({ commit, state }) {
