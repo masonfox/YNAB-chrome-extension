@@ -77,7 +77,7 @@
           :currency="null"
           locale="en"
           :distraction-free="false"
-          :valueRange="{ min: 0 }"
+          :valueRange="{ min: 0.01 }"
           :allow-negative="false"
         />
       </div>
