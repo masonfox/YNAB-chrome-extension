@@ -101,8 +101,14 @@ export default new Vuex.Store({
     },
     async fetchBudgets({ commit }) {
       const response = await api.budgets.getBudgets();
-      commit("setBudgets", response.data.budgets);
-      storage.set({ budgets: response.data.budgets });
+      const { budgets, default_budget } = response.data;
+
+      // commit/persist budgets
+      commit("setBudgets", budgets);
+      storage.set({ budgets });
+
+      // handle default budget in response
+      if (default_budget) commit("setActiveBudget", default_budget.id);
     },
     async fetchActiveBudgetId({ commit }) {
       const response = await storage.get("activeBudgetId");
