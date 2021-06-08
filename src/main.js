@@ -15,9 +15,8 @@ new Vue({
   store,
   render: (h) => h(App),
   created() {
-    store.dispatch("fetchBudgets");
     // fetch the budget id before trying any other request - budget id is required
-    store.dispatch("fetchActiveBudgetId").then(() => {
+    store.dispatch("fetchBudgetsAndActiveId").then(() => {
       if (this.$store.getters.hasBudgetId) {
         store.dispatch("fetchPayees");
         store.dispatch("fetchCategories");

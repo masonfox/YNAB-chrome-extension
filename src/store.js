@@ -105,6 +105,25 @@ export default new Vuex.Store({
       // handle default budget in response
       if (default_budget) commit("setActiveBudget", default_budget.id);
     },
+    async fetchBudgetsAndActiveId({ dispatch, state }) {
+      await dispatch("fetchBudgets");
+      await dispatch("fetchActiveBudgetId");
+
+      return new Promise((resolve) => {
+        let exists = state.budgets.some(
+          (budget) => budget.id == state.activeBudgetId
+        );
+
+        console.log(exists);
+
+        if (!exists) {
+          storage.clear();
+          // TODO: figure out how to force a reload/router redirect?
+          // location.reload();
+        }
+        resolve();
+      });
+    },
     async fetchActiveBudgetId({ commit }) {
       const response = await storage.get("activeBudgetId");
       if (!isEmpty(response)) {
