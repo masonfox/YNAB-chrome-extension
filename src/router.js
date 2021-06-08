@@ -25,7 +25,7 @@ router.beforeEach((to, from, next) => {
   // TODO: auth route
   // has active budget
   store.dispatch("fetchActiveBudgetId").then(() => {
-    if (to.name !== "Select Budget" && store.state.activeBudgetId == null) {
+    if (to.name !== "Select Budget" && !store.getters.hasBudgetId) {
       next({ name: "Select Budget" });
     } else {
       next();
