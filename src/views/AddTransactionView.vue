@@ -3,72 +3,7 @@
     <!-- Debit/credit toggle and amount -->
     <div class="form-line">
       <div class="flex justify-between items-center">
-        <!-- Enabled: "bg-indigo-600", Not Enabled: "bg-gray-200" -->
-        <button
-          type="button"
-          @click="toggleTransactionType()"
-          class="relative inline-flex f1ex-shrink-0 h-6 w-2/12 border-2 border-transparent rounded-md cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none"
-          :class="[isDebit ? 'bg-red-500' : 'bg-green-500']"
-          aria-pressed="false"
-        >
-          <span class="sr-only">Use setting</span>
-          <!-- Enabled: "translate-x-5", Not Enabled: "translate-x-0" -->
-          <span
-            class="translate-x-0 pointer-events-none relative inline-block h-5 w-5 rounded-md bg-white shadow transform ring-0 transition ease-in-out duration-200"
-            :class="[isDebit ? 'translate-x-0' : 'translate-x-5']"
-          >
-            <!-- Enabled: "opacity-0 ease-out duration-100", Not Enabled: "opacity-100 ease-in duration-200" -->
-            <span
-              class="absolute inset-0 h-full w-full flex items-center justify-center transition-opacity"
-              aria-hidden="true"
-              :class="[
-                isDebit
-                  ? 'opacity-100 ease-in duration-200'
-                  : 'opacity-0 ease-out duration-100',
-              ]"
-            >
-              <svg
-                class="bg-white h-4 w-4 text-gray-700"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M20 12H4"
-                />
-              </svg>
-            </span>
-            <!-- Enabled: "opacity-100 ease-in duration-200", Not Enabled: "opacity-0 ease-out duration-100" -->
-            <span
-              class="absolute inset-0 h-full w-full flex items-center justify-center transition-opacity"
-              aria-hidden="true"
-              :class="[
-                isDebit
-                  ? 'opacity-0 ease-out duration-100'
-                  : 'opacity-100 ease-in duration-200',
-              ]"
-            >
-              <svg
-                class="bg-white h-4 w-4 text-gray-700"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                />
-              </svg>
-            </span>
-          </span>
-        </button>
+        <ToggleIcon :active="isDebit" v-on:toggle="toggleTransactionType()" />
         <currency-input
           v-model="form.amount"
           class="w-10/12 h-4 text-right text-xl
@@ -327,6 +262,7 @@
 
 <script>
 // import FormLine from '@/components/utilities/FormLine.vue'
+import ToggleIcon from "@/components/utilities/ToggleIcon.vue";
 import { CurrencyInput } from "vue-currency-input";
 import Modal from "@/components/utilities/Modal.vue";
 import SelectModal from "@/components/SelectModal.vue";
@@ -337,6 +273,7 @@ export default {
   name: "AddTransactionView",
   components: {
     // FormLine,
+    ToggleIcon,
     CurrencyInput,
     Modal,
     SelectModal,
