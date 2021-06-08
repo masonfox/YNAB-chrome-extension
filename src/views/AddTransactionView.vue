@@ -148,31 +148,11 @@
         placeholder="Write a memo..."
       ></textarea>
     </div>
-    <!-- Cleared -->
-    <button
-      @click="toggleCleared()"
-      class="flex items-center justify-between border-b border-gray-200 px-4 py-2 w-full bg-gray-50 hover:bg-gray-100 focus:outline-none"
-    >
-      <span class="w-1/4 text-sm text-left font-medium text-gray-700"
-        >Cleared</span
-      >
-      <div class="flex justify-end w-3/4">
-        <button
-          type="button"
-          class="bg-gray-200 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none"
-          aria-pressed="false"
-          :class="[isCleared ? 'bg-green-500' : 'bg-gray-400']"
-        >
-          <span class="sr-only">Use setting</span>
-          <span
-            aria-hidden="true"
-            class="translate-x-0 pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200"
-            :class="[isCleared ? 'translate-x-5' : 'translate-x-0']"
-          ></span>
-        </button>
-      </div>
-    </button>
 
+    <!-- Cleared -->
+    <Toggle :active="isCleared" v-on:toggle="toggleCleared()" />
+
+    <!-- bottom buttons -->
     <div class="flex items-center justify-center mt-4 px-4">
       <button
         @click="toggleSelectModalVisibility('ClearForm')"
@@ -263,6 +243,7 @@
 <script>
 // import FormLine from '@/components/utilities/FormLine.vue'
 import ToggleIcon from "@/components/utilities/ToggleIcon.vue";
+import Toggle from "@/components/utilities/Toggle.vue";
 import { CurrencyInput } from "vue-currency-input";
 import Modal from "@/components/utilities/Modal.vue";
 import SelectModal from "@/components/SelectModal.vue";
@@ -274,6 +255,7 @@ export default {
   components: {
     // FormLine,
     ToggleIcon,
+    Toggle,
     CurrencyInput,
     Modal,
     SelectModal,
